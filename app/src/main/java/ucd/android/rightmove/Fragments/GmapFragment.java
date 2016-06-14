@@ -164,7 +164,7 @@ public class GmapFragment extends Fragment
         });
 
 
-        /*
+
         gMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
@@ -184,7 +184,7 @@ public class GmapFragment extends Fragment
                 //mlocmarker = gMap.addMarker(new MarkerOptions().position(latLng));
             }
         });
-        */
+
     }
 
     public void mapPosition(){
