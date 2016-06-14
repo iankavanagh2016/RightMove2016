@@ -12,8 +12,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import ucd.android.rightmove.Fragments.Area_Crime_Fragment;
+import ucd.android.rightmove.Fragments.CSO_Fragment;
 import ucd.android.rightmove.Fragments.GmapFragment;
-import ucd.android.rightmove.Fragments.ImportFragment;
+import ucd.android.rightmove.Fragments.Help_Fragment;
+import ucd.android.rightmove.Fragments.Options_Fragment;
+import ucd.android.rightmove.Fragments.Price_Trends_Fragment;
+import ucd.android.rightmove.Fragments.Schools_Fragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -51,12 +57,7 @@ public class MainActivity extends AppCompatActivity
         // Create a fragmentManager that will be used for interfacing with fragments associated with this Activity.
 
         FragmentManager fm = getFragmentManager();
-
-        // We can put any fragment in the context_frame Layout using replace() method in Activity.
-
         fm.beginTransaction().replace(R.id.content_frame,new GmapFragment()).commit();
-
-        //fm.beginTransaction().replace(R.id.content_frame, new ImportFragment()).commit();
     }
 
     @Override
@@ -116,27 +117,26 @@ public class MainActivity extends AppCompatActivity
 
         //getSupportActionBar().setTitle("Camera ..");
 
-        if (id == R.id.nav_camara) {
-            fm.beginTransaction().replace(R.id.content_frame, new ImportFragment()).commit();
+        if (id == R.id.nav_price) {
+            fm.beginTransaction().replace(R.id.content_frame, new Price_Trends_Fragment()).commit();
 
-        } else if (id == R.id.nav_gallery) {
-
-            //GoogleMapFragment frag = new GoogleMapFragment();
-
-            //getSupportActionBar().setTitle("Google Maps ..");
-
-            //fm.beginTransaction().replace(R.id.content_frame, new ImportFragment()).commit();
-
+        } else if (id == R.id.nav_maps) {
             fm.beginTransaction().replace(R.id.content_frame, new GmapFragment()).commit();
 
+        } else if (id == R.id.nav_cso) {
+            fm.beginTransaction().replace(R.id.content_frame, new CSO_Fragment()).commit();
 
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_crime) {
+            fm.beginTransaction().replace(R.id.content_frame, new Area_Crime_Fragment()).commit();
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_schools) {
+            fm.beginTransaction().replace(R.id.content_frame, new Schools_Fragment()).commit();
 
-        } else if (id == R.id.nav_share) {
+        } else if (id == R.id.nav_options) {
+            fm.beginTransaction().replace(R.id.content_frame, new Options_Fragment()).commit();
 
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_help) {
+            fm.beginTransaction().replace(R.id.content_frame, new Help_Fragment()).commit();
 
         }
 
