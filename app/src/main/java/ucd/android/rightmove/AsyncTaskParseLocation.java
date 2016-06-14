@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,7 +32,7 @@ public class AsyncTaskParseLocation extends AsyncTask<String, Void, String> {
 
     private final GmapFragment mapFragment;
 
-    // only used to test  ...
+    // only used to test  ... passing in fragment in order to execute
 
     public AsyncTaskParseLocation(GmapFragment mapFragment){
 
@@ -105,11 +106,29 @@ public class AsyncTaskParseLocation extends AsyncTask<String, Void, String> {
 
     protected void onPostExecute(String result){
         Log.i(TAG, "onPostExecute()");
-        String test = result;
+        String in = result;
 
-        Toast.makeText(this.mapFragment.getActivity(), "onPostExecute..."+test, Toast.LENGTH_LONG).show();
+        //Toast.makeText(this.mapFragment.getActivity(), "onPostExecute..."+in, Toast.LENGTH_LONG).show();
+
+       if ( in != null )
         try {
-            JSONObject jsonResult = new JSONObject(test);
+
+            // For OUR example we need to test if single json object or an array
+
+            JSONObject json = new JSONObject(in);
+
+            // Getting JSON Array node - in this example its 'Users' ...
+
+            JSONArray contacts = json.getJSONArray("Users");
+
+            // looping through All Users / Locations ... we will build up an ArrayList of markers
+
+            for (int i = 0; i < contacts.length(); i++) {
+
+                JSONObject c = contacts.getJSONObject(i);
+            }
+
+
         }catch(JSONException e){}
     }
 }

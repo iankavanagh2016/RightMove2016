@@ -197,7 +197,11 @@ public class GmapFragment extends Fragment
             if (mlocation != null ){
                 LatLng marker = new LatLng(mlocation.getLatitude(), mlocation.getLongitude());
                 postionMarker(marker);
-                String jsonUrl = "http://demo.codeofaninja.com/tutorials/json-example-with-php/index.php";
+                String jsonUrl  = "http://demo.codeofaninja.com/tutorials/json-example-with-php/index.php";
+
+                String jsonUrl2 = "http://csi6220-1-vm2.ucd.ie:5000/api/property/info?lat="
+                        + mlocation.getLatitude() +"&lng=" +mlocation.getLongitude() +"";
+
                 AsyncTaskParseLocation task = new AsyncTaskParseLocation(this);
                 task.execute(jsonUrl);
 
@@ -208,6 +212,7 @@ public class GmapFragment extends Fragment
     private void plotMarkers(){
 
         ArrayList<MyMarker> markers = new ArrayList<MyMarker>();
+
         mMarkersHashMap = new HashMap<Marker, MyMarker>();
 
         markers.add(new MyMarker("21/05/2016","13 Portersgate Way, Clonsilla","Dublin",123.13,"3 bed House", 53.38307, -6.41031));
@@ -242,9 +247,11 @@ public class GmapFragment extends Fragment
 
             View v = getActivity().getLayoutInflater().inflate(R.layout.infowindow_layout, null);
 
-
-
                 MyMarker m = mMarkersHashMap.get(marker);
+
+                //MyMarker m2 = markers.get(marker);
+
+
                 TextView date = (TextView) v.findViewById(R.id.date_label);
                 TextView address = (TextView) v.findViewById(R.id.address_label);
                 TextView county = (TextView) v.findViewById(R.id.county_label);
