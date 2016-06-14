@@ -13,13 +13,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import ucd.android.rightmove.Fragments.Area_Crime_Fragment;
-import ucd.android.rightmove.Fragments.CSO_Fragment;
 import ucd.android.rightmove.Fragments.GmapFragment;
-import ucd.android.rightmove.Fragments.Help_Fragment;
-import ucd.android.rightmove.Fragments.Options_Fragment;
 import ucd.android.rightmove.Fragments.Price_Trends_Fragment;
-import ucd.android.rightmove.Fragments.Schools_Fragment;
+
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -124,19 +120,19 @@ public class MainActivity extends AppCompatActivity
             fm.beginTransaction().replace(R.id.content_frame, new GmapFragment()).commit();
 
         } else if (id == R.id.nav_cso) {
-            fm.beginTransaction().replace(R.id.content_frame, new CSO_Fragment()).commit();
+            //fm.beginTransaction().replace(R.id.content_frame, new _CSO_Fragment()).commit();
 
         } else if (id == R.id.nav_crime) {
-            fm.beginTransaction().replace(R.id.content_frame, new Area_Crime_Fragment()).commit();
+            //fm.beginTransaction().replace(R.id.content_frame, new Area_Crime_Fragment()).commit();
 
         } else if (id == R.id.nav_schools) {
-            fm.beginTransaction().replace(R.id.content_frame, new Schools_Fragment()).commit();
+            //fm.beginTransaction().replace(R.id.content_frame, new _Schools_Fragment()).commit();
 
         } else if (id == R.id.nav_options) {
-            fm.beginTransaction().replace(R.id.content_frame, new Options_Fragment()).commit();
+            //fm.beginTransaction().replace(R.id.content_frame, new _Options_Fragment()).commit();
 
         } else if (id == R.id.nav_help) {
-            fm.beginTransaction().replace(R.id.content_frame, new Help_Fragment()).commit();
+            //fm.beginTransaction().replace(R.id.content_frame, new _Help_Fragment()).commit();
 
         }
 
