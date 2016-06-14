@@ -54,9 +54,9 @@ public class MainActivity extends AppCompatActivity
 
         // We can put any fragment in the context_frame Layout using replace() method in Activity.
 
-        //fm.beginTransaction().replace(R.id.content_frame, new GmapFragment()).commit();
+        fm.beginTransaction().replace(R.id.content_frame, new GmapFragment()).commit();
 
-        fm.beginTransaction().replace(R.id.content_frame, new ImportFragment()).commit();
+        //fm.beginTransaction().replace(R.id.content_frame, new ImportFragment()).commit();
     }
 
     @Override
