@@ -18,6 +18,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.ArrayList;
 
 import ucd.android.rightmove.Fragments.GmapFragment;
 
@@ -29,6 +30,20 @@ import ucd.android.rightmove.Fragments.GmapFragment;
 public class AsyncTaskParseLocation extends AsyncTask<String, Void, String> {
 
     final String TAG = "AsyncTaskParseLocation";
+
+    // JSON Node names
+
+    private static final String TAG_LOCATION = "location";
+
+    private static final String TAG_DATE_OF_SALE = "date_of_sale";
+    private static final String TAG_ADDRESS= "address";
+    private static final String TAG_COUNTY = "county";
+    private static final String TAG_PRICE= "price";
+    private static final String TAG_DESCRIPTION = "description";
+    private static final String TAG_LAT = "latitude";
+    private static final String TAG_LONG= "longitude";
+
+    private static final String TAG_STATUS = "status";
 
     private final GmapFragment mapFragment;
 
@@ -116,6 +131,38 @@ public class AsyncTaskParseLocation extends AsyncTask<String, Void, String> {
             // For OUR example we need to test if single json object or an array
 
             JSONObject json = new JSONObject(in);
+
+            Object intervention = json.get("Users");
+
+            if (intervention instanceof JSONArray) {
+
+                // It's an array
+
+                JSONArray contacts = json.getJSONArray("Users");
+
+                // looping through All Users / Locations ... we will build up an ArrayList of markers
+
+                for (int i = 0; i < contacts.length(); i++) {
+
+                    JSONObject c = contacts.getJSONObject(i);
+
+                    //ArrayList<MyMarker> marker_list =  new ArrayList<MyMarker>();
+                    //marker_list.add(c);
+                }
+
+            }
+            else if (intervention instanceof JSONObject) {
+
+                Log.i(TAG, "onPostExecute() - it a JSCON object");
+                // It's an object
+
+            }
+            else {
+
+                Log.i(TAG, "onPostExecute() - what the hell !!!!");
+
+                // It's something else, like a string or number
+            }
 
             // Getting JSON Array node - in this example its 'Users' ...
 

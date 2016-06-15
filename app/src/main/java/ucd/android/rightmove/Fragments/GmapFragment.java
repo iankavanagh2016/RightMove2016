@@ -1,6 +1,7 @@
 package ucd.android.rightmove.Fragments;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -75,6 +77,7 @@ public class GmapFragment extends Fragment
     private LatLng marker;
     private Marker mlocmarker;
     private Intent intent;
+    private  ArrayList<MyMarker> markers;
 
     private static final String PLACES_API_BASE = "https://maps.googleapis.com/maps/api/place";
     private static final String TYPE_AUTOCOMPLETE = "/autocomplete";
@@ -108,6 +111,7 @@ public class GmapFragment extends Fragment
 
                 // do something ..
 
+                hideSoftKeyboard(getActivity());
                 postionMarker( getAddress(parent.getItemAtPosition(position).toString()));
             }
         });
@@ -146,10 +150,17 @@ public class GmapFragment extends Fragment
             @Override
             public void onMarkerDragEnd(Marker marker) {
                 LatLng dragPosition = marker.getPosition();
-                mlocmarker.setPosition(dragPosition);
+
+                removeMarkers();
+
+                mlocmarker = gMap.addMarker(new MarkerOptions().position(dragPosition).icon(BitmapDescriptorFactory.fromResource(R.drawable.logo)).draggable(true));
+
+                // get Address - using an IntentService to get the task of the main thread - as in the case of getAddress()
 
                 mlocation.setLatitude(dragPosition.latitude);
                 mlocation.setLongitude(dragPosition.longitude);
+
+                plotMarkers();
 
                 if (client.isConnected() ) {
                     startIntentService();
@@ -179,12 +190,25 @@ public class GmapFragment extends Fragment
                 mlocation.setLatitude(latLng.latitude);
                 mlocation.setLongitude(latLng.longitude);
 
-                postionMarker(latLng);
+                // remove ALL markers from map.
 
-                //mlocmarker = gMap.addMarker(new MarkerOptions().position(latLng));
+                removeMarkers();
+
+                mlocmarker = gMap.addMarker(new MarkerOptions().position(latLng).icon(BitmapDescriptorFactory.fromResource(R.drawable.logo)).draggable(true));
+
+                plotMarkers();
+
+                if (client.isConnected() ) {
+                    startIntentService();
+                }
             }
         });
 
+    }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager = (InputMethodManager)activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
 
     public void mapPosition(){
@@ -211,11 +235,12 @@ public class GmapFragment extends Fragment
 
     private void plotMarkers(){
 
-        ArrayList<MyMarker> markers = new ArrayList<MyMarker>();
+        markers = new ArrayList<MyMarker>();
 
         mMarkersHashMap = new HashMap<Marker, MyMarker>();
 
-        markers.add(new MyMarker("21/05/2016","13 Portersgate Way, Clonsilla","Dublin",123.13,"3 bed House", 53.38307, -6.41031));
+        markers.add(new MyMarker("21/05/2016","13 Portersgate Way, Clonsilla","Dublin",123.13,"3 bed House", mlocation.getLatitude()+.01, mlocation.getLongitude()+.01));
+        markers.add(new MyMarker("21/05/2016","22 Ongar Place, Clonsilla","Dublin",123000.23,"3 bed House", mlocation.getLatitude()-.01, mlocation.getLongitude()-.01));
 
         if ( markers.size() > 0 ){
 
@@ -232,10 +257,17 @@ public class GmapFragment extends Fragment
         }
     }
 
+
+    private void removeMarkers(){
+
+        gMap.clear();
+        mMarkersHashMap.clear();
+        markers.clear();
+    }
+
     public class MarkerInfoWindowAdaptor implements GoogleMap.InfoWindowAdapter {
 
         public MarkerInfoWindowAdaptor(){
-
         }
 
         @Override
@@ -250,7 +282,7 @@ public class GmapFragment extends Fragment
                 MyMarker m = mMarkersHashMap.get(marker);
 
                 //MyMarker m2 = markers.get(marker);
-
+                //Log.d(TAG,"getInfoContents ... . "+ mMarkersHashMap.get(m.getAddress()) );
 
                 TextView date = (TextView) v.findViewById(R.id.date_label);
                 TextView address = (TextView) v.findViewById(R.id.address_label);
@@ -265,6 +297,8 @@ public class GmapFragment extends Fragment
                 description.setText("Desc : " +m.getDescription());
             }
             catch( Exception e) {
+
+               // Log.d(TAG,"getInfoContents ... . "+ mMarkersHashMap.size() );
 
                 // mlocation currently not saved as a HashMap object.
 
